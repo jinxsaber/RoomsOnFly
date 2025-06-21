@@ -23,11 +23,10 @@ export default function Right() {
         endpoint,
         { email, password },
         {
-          withCredentials: true, // ✅ important for using jwt cookie from backend
+          withCredentials: true,
         }
       );
 
-      // ✅ Optional: Save to localStorage too if needed
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
 

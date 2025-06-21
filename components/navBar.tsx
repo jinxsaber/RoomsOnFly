@@ -13,19 +13,24 @@ export default function NavBar() {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API}/verify`,
-          {},
-          {
-            headers: token ? { Authorization: `Bearer ${token}` } : {},
-            withCredentials: true, // ✅ for cookie-based auth
-          }
-        );
-
-        setIsAuthenticated(true);
-        setUserName(res.data.user?.name || "User");
+        if(!token){
+        setIsAuthenticated(false);
+        }
+        else{
+          const res = await axios.post(
+            `${process.env.NEXT_PUBLIC_API}/verify`,
+            {},
+            {
+              headers: token ? { Authorization: `Bearer ${token}` } : {},
+              withCredentials: true,
+            }
+          );
+  
+          setIsAuthenticated(true);
+          setUserName(res.data.user?.name || "User");
+        }
       } catch (err) {
-        console.error("User not verified:", err);
+        // console.error("User not verified:", err);
         setIsAuthenticated(false);
       }
     };
@@ -35,10 +40,10 @@ export default function NavBar() {
 
   return (
     <div className="mx-20 px-10 poppins flex justify-between items-center h-20 ">
-      <div className="">Logo</div>
+      <div className=""><Link href="/">Logo</Link></div>
 
       <div className="flex justify-between items-center w-1/3">
-        <div>Explore</div>
+        <div><Link href = "/explore" >Explore</Link></div>
         <div>Experiences</div>
         <div>Contact Us</div>
       </div>
